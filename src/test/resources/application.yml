@@ -1,0 +1,9 @@
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 9999
+    mongodb:
+      host: localhost
+      port: 10000
+      uri: mongodb://localhost:10000/test
