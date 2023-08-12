@@ -10,51 +10,33 @@ spec: # Pod에서 실행될 컨테이너의 스펙(이미지, CPU, 메모리 등
       image: mysql # 컨테이너가 실행할 이미지 이름
       ports:
         - containerPort: 3306
-      env:
-        - name: MYSQL_DATABASE
-          value: "docker_test"
-        - name: MYSQL_ROOT_HOST
-          value: '%'
-        - name: MYSQL_ROOT_PASSWORD
-          value: "capstone2023"
+      envFrom:
+        - secretRef:
+            name: docker-hub-secret
 
     - name: redis-db
       image: redis
       ports:
         - containerPort: 6379
+      envFrom:
+        - secretRef:
+            name: docker-hub-secret
 
     - name: mongo-db
       image: mongo
       ports:
         - containerPort: 27017
-      env:
-        - name: MONGO_INITDB_ROOT_USERNAME
-          value: "root"
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          value: "1234"
-        - name: MONGO_INITDB_DATABASE
-          value: "docker_test"
+      envFrom:
+        - secretRef:
+            name: docker-hub-secret
 
     - name: spring-docker-test
       image: docker.io/eckrin/spring-docker-test
       ports:
         - containerPort: 8080
-      env:
-        - name: MYSQL_URL
-          value: "jdbc:mysql://localhost:3306/docker_test?serverTimezone=Asia/Seoul"
-        - name: MYSQL_USERNAME
-          value: "root"
-        - name: MYSQL_PASSWORD
-          value: "capstone2023"
-        - name: MONGO_HOST
-          value: "localhost"
-        - name: MONGO_PORT
-          value: "27017"
-        - name: MONGO_URI
-          value: "mongodb://root:1234@localhost:27017/docker_test?authSource=admin"
-        - name: REDIS_HOST
-          value: "localhost"
-        - name: REDIS_PORT
-          value: "6379"
+      envFrom:
+        - secretRef:
+            name: docker-hub-secret
+
   imagePullSecrets: # Docker Hub Secret 지정
     - name: docker-hub-secret

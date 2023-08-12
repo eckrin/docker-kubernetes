@@ -13,8 +13,4 @@ class MySQLUsers(
     val email: String,
 
     val name: String
-) {
-    constructor() : this("", "", "") {
-
-    }
-}
+)
